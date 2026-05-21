@@ -2,6 +2,7 @@ package com.mycompany.peluqueriacanina.persistencia;
 
 import com.mycompany.peluqueriacanina.logica.Duenio;
 import com.mycompany.peluqueriacanina.logica.Mascota;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -16,5 +17,9 @@ public class ControladoraPersistencia {
         // Crear el objeto en la BD
         duenioJpa.create(duenio);
         mascotaJpa.create(mascota);
+    }
+
+    public List<Mascota> traerMascota() {
+        return mascotaJpa.findMascotaEntities();
     }
 }
