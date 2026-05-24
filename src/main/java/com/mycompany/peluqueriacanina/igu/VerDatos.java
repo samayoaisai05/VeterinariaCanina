@@ -172,29 +172,45 @@ public class VerDatos extends javax.swing.JFrame {
             if(tablaMascota.getSelectedRow() != -1){
                 int id_cliente = Integer.parseInt(String.valueOf(tablaMascota.getValueAt(tablaMascota.getSelectedRow(), 0)));
                 try {
+                    // llamar al metodo borrar
                     control.eliminarMascota(id_cliente);
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(VerDatos.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                JOptionPane option = new JOptionPane("El registro se eliminó");
-                option.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-                JDialog dialog = option.createDialog("Eliminado correctamente");
-                dialog.setAlwaysOnTop(true);
-                dialog.setVisible(true);
+                // dar la infomarcion
+                mostrarMensaje("Eliminado correctamente", "Información", "Eliminación de Mascota");
+                
+                // actualizacion de datos
+                cargarTabla();
             }
             else {
-                JOptionPane option = new JOptionPane("Seleccione un registro");
-                option.setMessageType(JOptionPane.WARNING_MESSAGE);
-                JDialog dialog = option.createDialog("Error al eliminar");
-                dialog.setAlwaysOnTop(true);
-                dialog.setVisible(true);
+                mostrarMensaje("No seleccionó un registro", "Advertencia", "Error al eliminar");
             }
         }
+        else {
+            mostrarMensaje("No hay datos", "Error", "Error al eliminar");
+        }
         
-        cargarTabla();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    
+    private void mostrarMensaje(String mensaje, String tipo, String titulo){
+        JOptionPane option = new JOptionPane(mensaje);
+        
+        if(tipo.equals("Información")){
+            option.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if(tipo.equals("Advertencia")){
+            option.setMessageType(JOptionPane.WARNING_MESSAGE);
+        } else if(tipo.equals("Error")){
+            option.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        
+        JDialog dialog = option.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+    
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         CargarDatos pantalla = new CargarDatos();
         pantalla.setVisible(true);
