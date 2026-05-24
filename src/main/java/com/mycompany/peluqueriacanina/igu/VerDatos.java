@@ -3,7 +3,12 @@ package com.mycompany.peluqueriacanina.igu;
 
 import com.mycompany.peluqueriacanina.logica.ControladoraLogica;
 import com.mycompany.peluqueriacanina.logica.Mascota;
+import com.mycompany.peluqueriacanina.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VerDatos extends javax.swing.JFrame {
@@ -73,11 +78,21 @@ public class VerDatos extends javax.swing.JFrame {
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setBackground(new java.awt.Color(51, 51, 255));
         btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEditar.setForeground(new java.awt.Color(255, 255, 255));
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -149,6 +164,42 @@ public class VerDatos extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         cargarTabla();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // validar que la tabla no esté vacía
+        if (tablaMascota.getRowCount() > 0){
+            // validar que haya seleccionado un registro
+            if(tablaMascota.getSelectedRow() != -1){
+                int id_cliente = Integer.parseInt(String.valueOf(tablaMascota.getValueAt(tablaMascota.getSelectedRow(), 0)));
+                try {
+                    control.eliminarMascota(id_cliente);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(VerDatos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                JOptionPane option = new JOptionPane("El registro se eliminó");
+                option.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = option.createDialog("Eliminado correctamente");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+            }
+            else {
+                JOptionPane option = new JOptionPane("Seleccione un registro");
+                option.setMessageType(JOptionPane.WARNING_MESSAGE);
+                JDialog dialog = option.createDialog("Error al eliminar");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+            }
+        }
+        
+        cargarTabla();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        CargarDatos pantalla = new CargarDatos();
+        pantalla.setVisible(true);
+        pantalla.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -279,6 +279,14 @@ public class CargarDatos extends javax.swing.JFrame {
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
         
+        txtNombre.setText("");
+        txtRaza.setText("");
+        txtColor.setText("");
+        txtNombreDueño.setText("");
+        txtCelDueño.setText("");
+        txtObservaciones.setText("");
+        cmbAlergico.setSelectedIndex(0);
+        cmbAtencionEspecial.setSelectedIndex(0);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
